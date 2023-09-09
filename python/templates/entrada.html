@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Principal</title>
+    <link rel="stylesheet" href="{{url_for('static', filename="css/style.css")}}">
+</head>
+<body>
+    <a href="/cadastro">Criar conta</a>
+    <section class="container">
+        <form method="POST">
+            <h1>Bem vindo de Volta!</h1>
+        
+            <label for="login">Usuário</label>
+            <input type="text" id="login" name="login">
+        
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha">
+            <button type="submit">Login</button>
+        </form>        
+        <a href="/cadastro">Esqueci Minha Senha</a>
+    </section>
+</body>
+</html>

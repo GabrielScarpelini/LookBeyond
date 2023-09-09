@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuário Cadastrado com Sucesso</title>
+    <link rel="stylesheet" href="{{url_for('static', filename="css/style.css")}}">
+</head>
+<body>
+    <a href="/">Fazer Login</a>
+    
+    <section class="container">
+        <form method="POST">
+            <h1>Sucesso no Cadastro!</h1>
+            <h2>Dados:</h2>
+            <p>Nome: {{name}}</p>
+            <p>Email: {{Email}}</p>
+            <p>CPF/CNPJ: {{}}</p>
+            <h4>Confira seu Email, seu acesso foi enviado lá</h4>
+        </form>
+    </section>
+</body>
+</html>
