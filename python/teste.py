@@ -9,11 +9,8 @@ def listar_aluno_mysql():
     statements = "SELECT * FROM usuario"
     cursor.execute(statements)
     usuarios = cursor.fetchall()
-    # if usuarios == []:                       #se nao tinha nenhuma linha
-    #     return None
-    # result = [dict(aluno) for aluno in usuarios]
     lista = []
-    cont = 0 
+
     for tupla in usuarios:
         lista.append({"id":tupla[0], "nome": tupla[1], "email": tupla[2], "cpf": tupla[3]})
 
@@ -21,5 +18,6 @@ def listar_aluno_mysql():
 
         
 
-# print(listar_aluno_mysql())
-print(listar_aluno_mysql())
+data = listar_aluno_mysql()
+print(data[0])
+

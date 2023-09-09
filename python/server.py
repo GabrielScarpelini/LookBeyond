@@ -15,7 +15,7 @@ def principal():
     if request.method == "POST":
         email = request.form.get("login")
         password = request.form.get("senha")
-        cadastrado = cadastro_model.loginUser(email, password)
+        cadastrado = cadastro_model.loginUser_mysql(email, password)
         print(cadastrado)
         if cadastrado:
            return cadastrado.email
@@ -43,15 +43,14 @@ def cadastro():
 
         session["dados"] = jsonUser
 
-        return redirect(url_for("registrado", dados=jsonUser))
+        return redirect(url_for("show_database", dados=jsonUser))
 
     return render_template("formCadastro_flask.html") 
 
-@app.route("/registrado", methods=["GET"])
+@app.route("/show_database", methods=["GET"])
 
-def registrado():   
-    dados = cadastro_model.listar_aluno_mysql()
-    print(dados)
-    return render_template("listar.html", datas=dados)
+def show_database():   
+    dados = cadastro_model.listar_bd_mysql()
+    return render_template("listarBd.html", datas=dados)
 
 app.run(app.run(host = 'localhost', port = 5002, debug = True))

@@ -1,8 +1,5 @@
 from flask import jsonify
-from sqlalchemy.sql import text
 import conexao_bd
-
-engine = conexao_bd.getConexao()
 
 conn = conexao_bd.mySQL_conection()
 cursor = conn.cursor()
@@ -31,7 +28,7 @@ def inserirUsuario_mysql(usuario):
     conn.commit()
 
 def loginUser_mysql(email, password):
-    statement = text ("SELECT * FROM Usuario WHERE email = %s AND senha= %s",(email, password)) #esse parenteses aqui está passando os params
+    statement = ("SELECT * FROM Usuario WHERE email = %s AND senha= %s",(email, password)) #esse parenteses aqui está passando os params
     rs = conn.execute(statement)
     usuario = rs.fetchone() 
     print(usuario)
@@ -39,8 +36,8 @@ def loginUser_mysql(email, password):
         return None
     # result = [dict(user) for user in usuario]
     return usuario
-                                              
-def listar_aluno_mysql():
+
+def listar_bd_mysql():
     conn = conexao_bd.mySQL_conection()
     cursor = conn.cursor()
     statements = "SELECT * FROM usuario"
