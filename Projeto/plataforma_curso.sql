@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS usuario(
     email VARCHAR(255) NOT NULL,
     cpf_cnpj VARCHAR(255) NOT NULL,
     senha CHAR(15) NOT NULL,
+    atividade char(4) 
     CONSTRAINT pk_id_usuario PRIMARY KEY (id),
     CONSTRAINT uk_email_usuario UNIQUE (email),
     CONSTRAINT uk_cpf_cnpj_usuario UNIQUE (cpf_cnpj)                                                                                                                     

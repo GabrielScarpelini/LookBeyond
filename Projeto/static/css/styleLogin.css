@@ -1,0 +1,91 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+body{
+  background-color: rgb(17, 86, 102);
+  height: 100vh;
+}
+.container{
+  width: 450px;
+  background-color: #f0f0f6;
+  border-radius: 10px 10px 10px 10px;
+  padding: 20px 50px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  transform: translateY(50%);
+  flex-direction: column;
+}
+.container h2{
+  margin: 2em 0;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(17, 86, 102);
+}
+.form{
+  margin-bottom: 2rem;
+}
+.form label, input{
+  display: block;
+  width: 100%;
+}
+.form label{
+  margin-bottom: 2px;
+  size: 18px;
+}
+.form input{
+  padding: 15px;
+  outline: none;
+  border: 0;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+.form #send{
+  width: 100%;
+  border: none;
+  background-color: rgb(17, 86, 102);
+  color: #fff;
+  text-decoration: none;
+  height: 50px;
+  padding: 15px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+.link a{
+  text-decoration: none;
+  color: black;
+}
+.link a:hover{
+  text-decoration: underline;
+  font-weight: bold;
+}
+div.agrupar{
+  position: relative;
+}
+
+div.agrupar #senha{
+  width: 100%;
+}
+
+div.agrupar #btn-senha{
+  font-size: 25px;
+    top: 8px;
+    cursor: pointer;
+
+    position: absolute;
+    right: 5%;
+    color: #9d9c9c;
+}
+
+#error{
+  color: red;
+  gap: 10px;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../static/css/styleLogin.css">
+    <title>Login</title>
+</head>
+<body>
+    <section class="container">
+        <h2>Bem-vindo(a)</h2>
+        <form method="POST" class="form" action="login">
+            
+            <div>
+                <label for="email">Email</label>
+                <input type="email" placeholder="Digite seu email" name="email">
+            </div>
+            <label for="password">Senha</label>
+            <div class="agrupar">
+                <input type="password" id="senha" placeholder="Digite sua senha" name="senha">
+                <i class="bi bi-eye-fill" id="btn-senha" onclick="mostrarSenha()"></i>
+            </div>
+            <!--<a href="area_logada" id="send" onclick="logar()">Entrar</a>-->
+            <button id="send" type="submit">Entrar</button>
+        </form>
+        <div class="link">
+            <a href="/cadastro">Cadastre-se</a>
+            <p id="error"><strong>{{ erro }}</strong></p>
+        </div>
+    </section>
+    <script src="../static/js/login.js"></script>
+</body>
+</html>

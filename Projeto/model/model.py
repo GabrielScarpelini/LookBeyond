@@ -4,9 +4,9 @@ from flask import jsonify
 class ConectionSQL:
     def __init__(self):
         self.config = {'user': 'root',
-        'password': 'Joao$131103',
-        'host': 'localhost',  # Ou o endereço do servidor MySQL
-        'database': 'plataforma_curso',
+        'password': 'mudar123',
+        'host': '172.19.0.2',  # Ou o endereço do servidor MySQL
+        'database': 'plataforma_curso'
     }
         self.conn = mysql.connector.connect(**self.config)
         self.cursor = self.conn.cursor()
@@ -106,8 +106,16 @@ class ConectionSQL:
             else:
                 data = []
                 for resul in resultado:
-                     data.append({"id":resul[0], "nome": resul[1], "email": resul[2], "documento": resul[3]})
+                    status = 'desativado' if resul[5] == '0' else 'ativado'
+                    data.append({
+                        "id":resul[0], 
+                        "nome": resul[1], 
+                        "email": resul[2], 
+                        "cpf": resul[3], 
+                        "atividade": status
+                    })
                 return data
+
         except mysql.connector.Error as err:
             return self.Setar_Erro(403, False, f"Erro de execução SQL", err)
         
@@ -180,6 +188,21 @@ class ConectionSQL:
             return self.Setar_Erro(500, False, f"Erro de SQL: {err}", id)
         except Exception as e:
             return self.Setar_Erro(500, False, f"Erro ao desativar o usuário: {e}", id)
+        
+    def criarTalelas(self):
+        criarTabelaUsuario = """
+            CREATE TABLE IF NOT EXISTS usuario (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome VARCHAR(255) NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            cpf_cnpj VARCHAR(255) UNIQUE NOT NULL,
+            senha VARCHAR(255) NOT NULL,   
+            atividade CHAR(4)                                                                                                                                                                                                                                   
+        )
+        """
+        self.cursor.execute(criarTabelaUsuario)
+        
+
 
 
 if __name__ == "__main__":
