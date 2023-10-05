@@ -1,0 +1,27 @@
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>cadastro de Usuário</title>
+  <link rel="stylesheet" href="{{url_for('static', filename="css/style.css")}}">
+</head>
+
+<body>
+    <a href="/cadastro">Criar conta</a>
+    <a href="/">Área de login</a>
+
+    <section class="container">
+        <table class="table">
+            {% for item in datas %}
+                <!-- <td>{{item.keys()}}</td> -->
+                <li>ID: {{item.id}}</li>
+                <li>Nome: {{item.nome}}</li>
+                <li>Email: {{item.email}}</li>
+                <li>CPF: {{item.documento}}</li>
+                <p>---------------------------</p>
+            {% endfor %}
+        </table>
+    </section>
+</body>
