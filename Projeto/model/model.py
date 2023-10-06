@@ -23,7 +23,7 @@ class ConectionSQL:
 
     def ChecarId(self, id):
         try:
-            comando = f'SELECT COUNT(*) FROM Usuario WHERE id={id}'
+            comando = f'SELECT COUNT(*) FROM usuario WHERE id={id}'
             self.cursor.execute(comando)
             resultado = self.cursor.fetchone()[0]
             return resultado > 0
@@ -95,6 +95,32 @@ class ConectionSQL:
         except Exception as e:
             return jsonify(self.Setar_Erro(500, False, f"Erro ao executar a consulta do usuário: {e}", None))
     
+    def findById(self, id):
+        try:
+            comando = f'SELECT * FROM usuario WHERE id={id}'
+            self.cursor.execute(comando)
+            resultado = self.cursor.fetchall()
+            if not resultado:
+                return jsonify(self.Setar_Erro(403, False, "Banco sem dados e registros!", None))
+            else:
+                data = []
+                for resul in resultado:
+                    status = 'desativado' if resul[5] == '0' else 'ativado'
+                    data.append({
+                        "id":resul[0], 
+                        "nome": resul[1], 
+                        "email": resul[2], 
+                        "cpf": resul[3], 
+                        "senha": resul[4],
+                        "atividade": status
+                    })
+                return data[0]
+
+        except mysql.connector.Error as err:
+            return self.Setar_Erro(403, False, f"Erro de execução SQL", err)
+        
+        except Exception as e:
+            return self.Setar_Erro(404, False, f"Houve um erro na lista de usuários", e)
 
     def SelectUsers(self):
         try:
@@ -123,15 +149,15 @@ class ConectionSQL:
             return self.Setar_Erro(404, False, f"Houve um erro na lista de usuários", e)
         
     
-    def  UpdateUser(self, nome, email, cpf_cnpj, senha, id):
+    def  UpdateUser(self, nome, email, senha, id):
         try:
             # Verificar se o usuário com o ID fornecido existe
             comando_verificar_existencia = f'SELECT COUNT(*) FROM usuario WHERE id={id}'
             self.cursor.execute(comando_verificar_existencia)
             total_registros = self.cursor.fetchone()[0]
             if total_registros == 0:
-                return self.Setar_Erro(404, False, f"Usuário não encontrado", {"name":nome, "email": email, "documento": cpf_cnpj, "senha": senha})
-            comando = f'UPDATE usuario SET nome="{nome}", email="{email}", senha="{senha}", cpf_cnpj="{cpf_cnpj}", senha={senha} WHERE id={id}'
+                return self.Setar_Erro(404, False, f"Usuário não encontrado", {"name":nome, "email": email, "senha": senha})
+            comando = f'UPDATE usuario SET nome="{nome}", email="{email}", senha={senha} WHERE id={id}'
             self.cursor.execute(comando)
             self.conn.commit()
             return {"status": 200, "msg": "Dados atualizados com sucesso!"}
@@ -145,15 +171,15 @@ class ConectionSQL:
         try:
             if self.ChecarId(id):
                 # Verifique se o usuário já está desativado
-                comando_verificacao = f'SELECT atividade FROM Usuario WHERE id={id}'
+                comando_verificacao = f'SELECT atividade FROM usuario WHERE id={id}'
                 self.cursor.execute(comando_verificacao)
                 resultado_verificacao = self.cursor.fetchone()
-                if resultado_verificacao:
-                    status_atual = resultado_verificacao[0]
-                    if status_atual == "0":
-                        return self.Setar_Erro(304, False, f"Usuário de id {id} já está ativado!", id)
+                # if resultado_verificacao:
+                #     status_atual = resultado_verificacao[0]
+                #     if status_atual == "0":
+                #         return self.Setar_Erro(304, False, f"Usuário de id {id} já está ativado!", id)
                 # Caso o usuário não esteja ativo, ative-o
-                comando = f'UPDATE Usuario SET atividade="1" WHERE id={id}'
+                comando = f'UPDATE usuario SET atividade="1" WHERE id={id}'
                 self.cursor.execute(comando)
                 self.conn.commit()
                 return {"status": 200, "verificacao": True, "msg": "Usuário Ativado!"}
@@ -188,7 +214,25 @@ class ConectionSQL:
             return self.Setar_Erro(500, False, f"Erro de SQL: {err}", id)
         except Exception as e:
             return self.Setar_Erro(500, False, f"Erro ao desativar o usuário: {e}", id)
-        
+
+
+    def desativar(self, id):
+        try:
+            # Verificar se o usuário com o ID fornecido existe
+            comando_verificar_existencia = f'SELECT COUNT(*) FROM usuario WHERE id={id}'
+            self.cursor.execute(comando_verificar_existencia)
+            total_registros = self.cursor.fetchone()[0]
+            if total_registros == 0:
+                return self.Setar_Erro(404, False, f"Usuário não encontrado")
+            comando = f'UPDATE usuario SET atividade=0 WHERE id={id}'
+            self.cursor.execute(comando)
+            self.conn.commit()
+            return {"status": 200, "msg": "Dados atualizados com sucesso!"}
+        except mysql.connector.Error as err:
+            return self.Setar_Erro(500, False, f"Erro de execução SQL: {err}", None)
+        except Exception as e:
+            return self.Setar_Erro(500, False, f"Houve um erro na atualização do cadastro: {e}", None)
+
     def criarTalelas(self):
         criarTabelaUsuario = """
             CREATE TABLE IF NOT EXISTS usuario (

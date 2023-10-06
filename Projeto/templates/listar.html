@@ -20,7 +20,8 @@
                     <th>CPF</th>
                     <th>Status</th>
                     <th>Editar</th>
-                    <th>Excluir</th>
+                    <th>Desativar</th>
+                    <th>Ativar</th>
                     <!-- <th>Opção editar</th>
                     <th>Opção excluir</th> -->
                 </tr>
@@ -28,13 +29,14 @@
             <tbody class="tabela text-center">
                 {% for item in datas %}
                     <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.nome }}</td>
-                        <td>{{ item.email }}</td>
-                        <td>{{ item.cpf }}</td>
-                        <td id="status">{{ item.atividade }}</td>
-                        <td><button class="editar"><a href="atualizar.html">Editar</a></button></td>
-                        <td><button class="excluir"><a href="#">Excluir</a></button></td>
+                        <td id="id">{{ item.id }}</td>
+                        <td id="nome">{{ item.nome }}</td>
+                        <td id="email">{{ item.email }}</td>
+                        <td id="cpf">{{ item.cpf }}</td>
+                        <td id="atividades">{{ item.atividade }}</td>
+                        <td><button class="editar"><a href="{{ url_for('editar', id=item.id)}}">Editar</a></button></td>
+                        <td><button class="desativar"><a href="{{ url_for('desativar', id=item.id) }}">Desativar</a></button></td>
+                        <td><button class="ativar"><a href="{{ url_for('ativar', id=item.id) }}">Ativar</a></button></td>
                     </tr>
                 {% endfor %}
             </tbody>

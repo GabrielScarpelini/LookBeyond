@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h2>Atualizar</h2>
-        <form method="PUT" class="form" action="atualizar">
+        <form method="PUT" class="form" action="desativar">
             <div>
                 <label for="nome">Nome</label>
                 <input type="nome" name="nome">
@@ -23,8 +23,8 @@
 
             <label for="password">Senha</label>
             <div class="agrupar">
-                <input type="password" id="senha" placeholder="Digite sua senha" name="senha">
-                <i class="bi bi-eye-fill" id="btn-senha" onclick="mostrarSenha()"></i>
+                <label for="cpf">CPF:</label>
+                <input type="text" id="cpf" name="cpf" required>
             </div>
             <button id="btn-salvar" type="submit" onclick="logar()"><a id="txt-atualizar" href="show_database">Salvar</a></button>
         </form>

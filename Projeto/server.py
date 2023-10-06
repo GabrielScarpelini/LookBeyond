@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
-from flask_cors import CORS
+from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
+#from flask_cors import CORS
 from model.model import ConectionSQL
 
 app = Flask(__name__)
-CORS(app)  # Permite solicitações de diferentes origens (CORS)
+app.secret_key = "123456"
+#CORS(app)  # Permite solicitações de diferentes origens (CORS)
 
 @app.route('/')
 def entrar():
@@ -53,7 +54,7 @@ def homePage():
 
 # Rota para listar todos os usuários
 @app.route('/show_database', methods=['GET'])
-def listar_usuarios():
+def show_database():
     try:
         connection = ConectionSQL()
         users = connection.SelectUsers()
@@ -61,16 +62,37 @@ def listar_usuarios():
     except Exception as e:
         return jsonify({"status": 500, "msg": f"Erro interno: {str(e)}"})
 
-@app.route('/desativar/<int:id>', methods=['PUT'])
-def desativarUser(id):
-    connection = ConectionSQL()
-    checar = connection.InativarUser(id)
-    if checar == 1:
-        return redirect('#')
+@app.route('/desativar/<int:id>')
+def desativar(id):
+    con = ConectionSQL()
+    con.desativar(id)
+    flash('Usuário desativado com sucesso!')
+    return redirect(url_for('show_database'))
 
-@app.route('/atualizar/<int:id>', methods=['PUT'])
-def atualizarUser(id):
-    return render_template('atualizar.html')
+@app.route('/editar/<int:id>') 
+def editar(id):
+    con = ConectionSQL()
+    user = con.findById(id)
+    return render_template('editar.html', user=user)
+
+    
+@app.route('/atualizar', methods=['POST'])
+def atualizar():
+    id = request.form['id']
+    nome = request.form['nome']
+    email = request.form['email']
+    senha = request.form['senha']
+    con = ConectionSQL()
+    con.UpdateUser(nome, email, senha, id)
+
+    return redirect(url_for('show_database'))
+    
+
+@app.route('/ativar/<int:id>')
+def ativar(id):
+    con = ConectionSQL()
+    con.AtivarUser(id)
+    return redirect(url_for('show_database'))
     
 @app.route('/tabela')
 def criar_tabela():
@@ -78,5 +100,6 @@ def criar_tabela():
     con.criarTalelas()
     return 'tabela criada'
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+     app.run(debug=True)

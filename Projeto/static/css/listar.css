@@ -14,18 +14,6 @@ body.tabela{
 .table-secondary{
     top: 30px !important;
 }
-.editar{
-    width: 50px;
-    color: #fff;
-    font-weight: bold;
-    background-color: rgb(52, 124, 81);
-}
-.excluir{
-    width: 50px;
-    color: #fff;
-    font-weight: bold;
-    background-color: rgb(248, 106, 5);
-}
 #titulo-tabela{
     color: #fff !important;
     font-size: 20px !important;
@@ -39,14 +27,52 @@ body.tabela{
     color: rgb(9, 48, 56);
 }
 .editar a{
-    font-size: 12px;
+    
+    font-size: 11px;
     font-weight: bold;
     color: #FFF;
     text-decoration: none !important;
 }
-.excluir a{
-    font-size: 12px;
+.desativar a{
+    font-size: 11px;
     font-weight: bold;
     color: #FFF;
     text-decoration: none !important;
+}
+.ativar a{
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: none !important;
+}
+
+
+.desativar{
+    width: 60px;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgb(52, 124, 81);
+}
+.desativar:hover{
+    background-color: rgb(4, 30, 14);
+}
+
+.ativar {
+    width: 50px;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgb(52, 124, 81);
+}
+.ativar:hover{
+    background-color: rgb(4, 30, 14);
+}
+
+.editar{
+    width: 60px;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgb(52, 124, 81);
+}
+.editar:hover{
+    background-color: rgb(4, 30, 14);
 }
