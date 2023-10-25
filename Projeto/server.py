@@ -1,15 +1,17 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
-#from flask_cors import CORS
+from flask_cors import CORS
 from model.model import ConectionSQL
 
 app = Flask(__name__)
 app.secret_key = "123456"
-#CORS(app)  # Permite solicitações de diferentes origens (CORS)
+CORS(app)  # Permite solicitações de diferentes origens (CORS)
 
 @app.route('/')
 def entrar():
     return render_template('login.html')
-
+@app.route('/curso')
+def cadastroCurso():
+    return render_template('cadastro_curso.html')
 
 @app.route('/cadastro')
 def cadastro():
@@ -31,6 +33,29 @@ def cadastrar_usuario():
         return response
     except Exception as e:
         return jsonify({"status": 500, "msg": f"Erro interno: {str(e)}"})
+    
+@app.route('/cadastrar_curso', methods=['POST'])
+def cadastrar_curso():
+    url=request.form['url']
+    titulo=request.form['titulo']
+    descricao=request.form['descricao']
+    imagem=request.form['imagem']
+    connection = ConectionSQL()
+    response = connection.inserirCurso(titulo, url, descricao, imagem)
+    if response.status_code == 200:
+        flash("curso cadastrado com sucesso")
+        return redirect('/cursos')
+    return flash("Não foi possivel cadastrar curso tente masi tarde")
+
+@app.route('/cursos', methods=['GET'])
+def todosOsCursos():
+    connection = ConectionSQL()
+    cursos = connection.todosCursos()
+    if cursos == False:
+        return render_template('error.html')
+    return render_template('mostrar_cursos.html', data=cursos)
+    
+
 
 # Rota para autenticar um usuário
 @app.route('/login', methods=['POST'])

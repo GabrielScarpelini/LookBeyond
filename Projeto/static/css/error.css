@@ -1,0 +1,18 @@
+:root {
+    --primary-color: rgb(17, 86, 102);
+    --primary-color-darker: rgb(9, 48, 56);
+}
+
+body {
+    color: #fff;
+    background-color: var(--primary-color);
+    display: grid;
+    place-items: center;
+}
+
+body button {
+    font-size: 1.5em;
+    color: rgb(3, 3, 97);
+    font-weight: bolder;
+    
+}

@@ -13,6 +13,7 @@ body{
     height: 100vh;
     background-color: rgb(17, 86, 102);
 }
+
 nav.menu-lateral{
     width: 80px;
     height: 100%;
@@ -68,6 +69,38 @@ ul li.item-menu a .txt-link{
 ul li.item-menu a .icon > i{
 
     font-size: 30px;
-    margin-left: 10px;
-   
+    margin-left: 10px;  
+}
+.cursos__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    z-index: 1;
+    padding: 153px 20px 10px 20px;
+    
+}
+.cursos__item {
+    flex-grow: 1;
+    height: 303px;
+    width: 300px;
+}
+.cursos__item {
+   color: #fff;
+}
+.secundaria-texto {
+    width: 390px;
+}
+
+@media(min-width: 834px) {
+
+    .cursos__container {
+        padding-left: 16%;
+        padding-right: 10%;
+    }
+}
+
+@media(min-width: 1440px) {
+    .cursos__item {
+        width: 288px;
+    }
 }

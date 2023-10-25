@@ -1,6 +1,6 @@
 import mysql.connector
 from flask import jsonify
-
+import json
 class ConectionSQL:
     def __init__(self):
         self.config = {'user': 'root',
@@ -234,24 +234,59 @@ class ConectionSQL:
             return self.Setar_Erro(500, False, f"Houve um erro na atualização do cadastro: {e}", None)
 
     def criarTalelas(self):
-        criarTabelaUsuario = """
-            CREATE TABLE IF NOT EXISTS usuario (
+        # criarTabelaUsuario = """
+        #     CREATE TABLE IF NOT EXISTS usuario (
+        #     id INT AUTO_INCREMENT PRIMARY KEY,
+        #     nome VARCHAR(255) NOT NULL,
+        #     email VARCHAR(255) UNIQUE NOT NULL,
+        #     cpf_cnpj VARCHAR(255) UNIQUE NOT NULL,
+        #     senha VARCHAR(255) NOT NULL,   
+        #     atividade CHAR(4)                                                                                                                                                                                                                                   
+        # )
+        # """
+
+        criarTabelaCursos = """
+            CREATE TABLE IF NOT EXISTS curso (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            nome VARCHAR(255) NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            cpf_cnpj VARCHAR(255) UNIQUE NOT NULL,
-            senha VARCHAR(255) NOT NULL,   
-            atividade CHAR(4)                                                                                                                                                                                                                                   
+            titulo VARCHAR(255) NOT NULL,
+            url VARCHAR(255) NOT NULL,
+            descricao VARCHAR(255) NOT NULL,
+            imagem VARCHAR(255) NOT NULL                                                                                                                                                                                                            
         )
         """
-        self.cursor.execute(criarTabelaUsuario)
+        self.cursor.execute(criarTabelaCursos)
+
+    def inserirCurso(self, titulo, url, descricao, imagem):
+        comando = """INSERT INTO curso (titulo, url, descricao, imagem) VALUES (%s, %s, %s, %s)"""
+        values = (titulo, url, descricao, imagem)
+        self.cursor.execute(comando, values)
+        self.conn.commit()
+        return jsonify({"status": 200, "msg": "Usuário cadastrado com sucesso!"})
         
+    def todosCursos(self):
+        comando = f'SELECT * FROM curso'
+        self.cursor.execute(comando)
+        resultado = self.cursor.fetchall()
+        #return jsonify(resultado)
+        if not resultado:
+                return False
+        else:
+            data = []
+            for resul in resultado:
+                data.append({
+                    "id":resul[0], 
+                    "titulo": resul[1], 
+                    "url": resul[2], 
+                    "descricao": resul[3],
+                    "imagem": resul[4]
+                })
+
+            print(data)
+            return (data)
+    
 
 
 
 if __name__ == "__main__":
     b = ConectionSQL()
-    #print(b.InsertUser("Lucas", "lucas@lucas", "23456789122", "senha"))
-    #print(b.loginUser_mysql("noa@noa", "123"))
-    print(b.UpdateUser("Lucas Pinto", "lucas@lucas.com", "23456789122", "123", 2))
-    #print(b.SelectUsers())
+   
