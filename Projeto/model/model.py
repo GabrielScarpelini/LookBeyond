@@ -4,8 +4,8 @@ from flask import jsonify
 class ConectionSQL:
     def __init__(self):
         self.config = {'user': 'root',
-        'password': 'mudar123',
-        'host': '172.19.0.2',  # Ou o endereço do servidor MySQL
+        'password': 'gabriel',
+        'host': '172.21.130.133',  # Ou o endereço do servidor MySQL
         'database': 'plataforma_curso'
     }
         self.conn = mysql.connector.connect(**self.config)
