@@ -2,6 +2,8 @@ import mysql.connector
 from flask import jsonify
 import json
 class ConectionSQL:
+
+    user_id = 6
     def __init__(self):
         self.config = {'user': 'root',
         'password': 'mudar123',
@@ -78,16 +80,29 @@ class ConectionSQL:
         
     def loginUser_mysql(self, email, password):
         try:
-            comando = "SELECT email FROM usuario WHERE email = %s AND senha = %s"
+            comando = "SELECT * FROM usuario WHERE email = %s AND senha = %s"
             values = (email, password)
             print("Comando SQL:", comando, "Valores:", values)  # Adicione esta linha
             self.cursor.execute(comando, values)
             usuario = self.cursor.fetchall()
-            print("Resultado da consulta:", usuario)  # Adicione esta linha
-
+            print(usuario)
+            if usuario == []:
+                return False
+            data = []
+            for resul in usuario:
+                data.append({
+                    "id":resul[0], 
+                    "nome": resul[1], 
+                    "email": resul[2], 
+                    "cpf": resul[3] 
+                })
+            global user_id
+            user_id = data[0]['id']
+            print(data)
+            return data
+        
             if not usuario:
                 return jsonify(self.Setar_Erro(404, False, "Usuário não cadastrado!", {"email": email, "pass": password}))
-            return {"status": 200, "msg": "Usuário logado!"}
         
         except mysql.connector.Error as err:
             return jsonify(self.Setar_Erro(500, False, f"Erro ao executar o comando SQL: {err}", None))
@@ -245,16 +260,27 @@ class ConectionSQL:
         # )
         # """
 
-        criarTabelaCursos = """
-            CREATE TABLE IF NOT EXISTS curso (
+        # criarTabelaCursos = """
+        #     CREATE TABLE IF NOT EXISTS curso (
+        #     id INT AUTO_INCREMENT PRIMARY KEY,
+        #     titulo VARCHAR(255) NOT NULL,
+        #     url VARCHAR(255) NOT NULL,
+        #     descricao VARCHAR(255) NOT NULL,
+        #     imagem VARCHAR(255) NOT NULL                                                                                                                                                                                                            
+        # )
+        # """
+        # self.cursor.execute(criarTabelaCursos)
+
+        criarTabelaMatricula = """
+            CREATE TABLE IF NOT EXISTS matricula (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            titulo VARCHAR(255) NOT NULL,
-            url VARCHAR(255) NOT NULL,
-            descricao VARCHAR(255) NOT NULL,
-            imagem VARCHAR(255) NOT NULL                                                                                                                                                                                                            
-        )
+            id_usuario INT, 
+            id_curso INT,
+            FOREIGN KEY(id_usuario) REFERENCES usuario(id) ON DELETE CASCADE,
+            FOREIGN KEY(id_curso) REFERENCES curso(id) ON DELETE CASCADE
+            )
         """
-        self.cursor.execute(criarTabelaCursos)
+        self.cursor.execute(criarTabelaMatricula)
 
     def inserirCurso(self, titulo, url, descricao, imagem):
         comando = """INSERT INTO curso (titulo, url, descricao, imagem) VALUES (%s, %s, %s, %s)"""
@@ -284,9 +310,65 @@ class ConectionSQL:
             print(data)
             return (data)
     
+    #Buscar curso pelo id do usuario
+    def buscarCursoPeloId(self):
+        comando = f'select c.id, c.titulo, c.url, c.descricao, c.imagem from matricula as m join usuario as u on u.id = m.id_usuario  join curso as c on c.id = m.id_curso where id_usuario={user_id}'
+        self.cursor.execute(comando)
+        result = self.cursor.fetchall()
+        if result == []:
+            return False
+        data = []
+        for res in result:
+                data.append({
+                    "id":res[0], 
+                    "titulo": res[1], 
+                    "url": res[2], 
+                    "descricao": res[3],
+                    "imagem": res[4]
+                })
+        return (data)
+
+    def matricula(self, id_curso):
+        comando = """INSERT INTO matricula (id_usuario, id_curso) VALUES (%s, %s)"""
+        values = (user_id, id_curso)
+        self.cursor.execute(comando, values)
+        self.conn.commit()
+        return True
 
 
+    def matricularNoCurso(self):
+        #user_id=6
+        comando = f'SELECT * FROM usuario WHERE id={user_id}'
+        self.cursor.execute(comando)
+        result = self.cursor.fetchall()
+        data = []
+        for resul in result:
+            data.append({
+                "id": resul[0],
+                "nome": resul[1], 
+                "email": resul[2]
+            })
+        return data[0]
+    
+    def cursoId(self, id):
+        comando = f'select * from curso where id={id}'
+        self.cursor.execute(comando)
+        result = self.cursor.fetchall()
+        data = []
+        for resul in result:
+            data.append({
+                "id": resul[0],
+                "titulo": resul[1]
+            })
+        return data[0]
 
+        
 if __name__ == "__main__":
     b = ConectionSQL()
    
+
+   #
+   # select * from matricula as m join usuario as u on u.id = m.id_usuario left join curso as c on c.id = m.id_curso where id_usuario = 6;
+
+   # Esse traz as linha da tabela curso
+   #select c.id, c.titulo, c.url, c.descricao from matricula as m join usuario as u on u.id = m.id_usuario  join curso as c on c.id = m.id_curso where id_usuario = 6;

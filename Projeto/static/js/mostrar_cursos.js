@@ -1,27 +1,28 @@
-// import { conectaApi } from "./conectaApi.js"
+var email = localStorage.getItem('email')
+
+function mostrarCurso(){
+    var span = document.getElementsByClassName('adiciona_curso')
+    var meuCurso = document.getElementsByClassName('bi bi-book')
+    var adicionaCurso = document.getElementsByClassName('bi bi-camera-video')
+    var btnShow = document.getElementById('adicionarCurso')
+    
+    
+
+    if(email == 'teste@teste'){
+        document.querySelector('nav').style.display = 'none'
+        document.getElementById("[data-div]").style.display = "none";
+    } else {
+        alert('Sou else')
+        
+    }
+    console.log(email == 'teste@teste')
+}
 
 
-// const lista = document.querySelector("[data-lista]")
-
-// function cadastrarCurso(titulo, descricao, url, imagem){
-//     const curso = document.createElement("li")
-//     curso.className = "cursos__item"
-//     curso.innerHTML = `<iframe width="100%" height="72%" src="${url}"
-//                     title="${titulo}" frameborder="0"
-//                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-//                     allowfullscreen></iframe>
-//                 <div class="descricao-curso">
-//                 <img src="${imagem}">
-//                     <h3>${titulo}</h3>
-//                     <p>${descricao}</p>
-//                 </div>`
-//     return curso
+// if(inputPass.type === 'password'){
+//     inputPass.setAttribute('type', 'text')
+    
+// } else {
+//     inputPass.setAttribute('type', 'password')
+//     btnShowPass.classList.replace('bi-eye-slash-fill', 'bi-eye-fill')
 // }
-
-// async function listaCursos() {
-//     const listaApi = await conectaApi.listaCursos();
-//     listaApi.forEach(elemento => lista.appendChild(
-//         cadastrarCurso(elemento.titulo, elemento.descricao,elemento.url, elemento.imagem)))
-// }
-
-// listaCursos();

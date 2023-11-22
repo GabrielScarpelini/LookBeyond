@@ -10,3 +10,14 @@ function mostrarSenha(){
         btnShowPass.classList.replace('bi-eye-slash-fill', 'bi-eye-fill')
     }
 }
+
+const btnEntrar = document.getElementById('send')
+
+btnEntrar.addEventListener('click', function(e) {
+    //e.preventDefault();
+    var email = document.getElementById('userEmail').value
+    localStorage.setItem("email", email)
+})
+
+
+

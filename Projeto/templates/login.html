@@ -2,19 +2,32 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../static/css/styleLogin.css">
     <title>Login</title>
 </head>
 <body>
+    <header>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+    </header>
     <section class="container">
         <h2>Bem-vindo(a)</h2>
         <form method="POST" class="form" action="login">
             
             <div>
                 <label for="email">Email</label>
-                <input type="email" placeholder="Digite seu email" name="email">
+                <input type="email" placeholder="Digite seu email" name="email" id="userEmail">
             </div>
             <label for="password">Senha</label>
             <div class="agrupar">

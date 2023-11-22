@@ -5,6 +5,8 @@ from model.model import ConectionSQL
 app = Flask(__name__)
 app.secret_key = "123456"
 CORS(app)  # Permite solicitações de diferentes origens (CORS)
+user_id = None
+
 
 @app.route('/')
 def entrar():
@@ -65,11 +67,19 @@ def login_usuario():
         senha = request.form['senha']
         connection = ConectionSQL()
         user = connection.loginUser_mysql(email, senha)
+        global user_id
+        user_id = user[0]['id']
         checar = connection.ChecarEmail(email)
-        print(checar)
-        if checar == 1:
-            return redirect('/area_logada')
-        return user
+        if user == False:
+            return render_template("login.html")
+        elif email != 'admin@teste.com.br':
+            return redirect('/curso_user')
+        flash("Login realizafdo com sucesso!")
+        return redirect('/area_logada')
+    #     print(checar)
+    #     if checar == 1:
+    #         return redirect('/area_logada')
+    #     return user
     except Exception as e:
         return jsonify({"status": 500, "msg": f"Erro interno: {str(e)}"})
 
@@ -99,7 +109,6 @@ def editar(id):
     con = ConectionSQL()
     user = con.findById(id)
     return render_template('editar.html', user=user)
-
     
 @app.route('/atualizar', methods=['POST'])
 def atualizar():
@@ -125,6 +134,42 @@ def criar_tabela():
     con.criarTalelas()
     return 'tabela criada'
 
+@app.route('/curso_user')
+def cursos_user():
+    connection = ConectionSQL()
+    cursos = connection.todosCursos()
+    if cursos == False:
+        return render_template('error.html')
+    return render_template('mostrarCursoUser.html', data=cursos)
+
+@app.route('/meus_cursos')
+def meusCursos():
+    con = ConectionSQL()
+    cursos = con.buscarCursoPeloId()
+    if cursos == False:
+        return render_template('erroCurso.html')
+    return render_template('meusCursos.html', data=cursos)
+
+@app.route('/matriculas/<int:id>')
+def matriculasPeloId(id):
+    con = ConectionSQL()
+    resultado =con.buscarMatricula(id)
+    print(resultado)
+    return render_template('meusCursos.html')
+
+@app.route('/matricular_curso/<int:id>')
+def matricular_curso(id):
+    con = ConectionSQL()
+    user = con.matricularNoCurso()
+    curso = con.cursoId(id)
+    return render_template('matricula.html', user=user, curso=curso)
+
+@app.route('/realiza_matricula/', methods=['POST'])
+def realizar_matricula():
+    id_curso = request.form['id']
+    con = ConectionSQL()
+    con.matricula(id_curso)
+    return redirect('/meus_cursos')
 
 if __name__ == '__main__':
-     app.run(debug=True)
+    app.run(debug=True)

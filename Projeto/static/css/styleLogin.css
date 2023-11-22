@@ -17,7 +17,7 @@ body{
   margin-right: auto;
   display: flex;
   justify-content: center;
-  transform: translateY(50%);
+  transform: translateY(26%);
   flex-direction: column;
 }
 .container h2{

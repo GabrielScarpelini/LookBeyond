@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/cadastro_curso.css">
+    <title>Cadastro de curso</title>
+</head>
+<body class="corpo">
+    <section class="container">
+        <h2>Matricular</h2>
+        <form method="POST" class="form" action="/realiza_matricula">
+            <label for="nome">Nome:</label>
+            <input type="nome" name="nome" value="{{ user.nome }}">
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="{{ user.email }}">
+            <label for="id">Número do curso:</label>
+            <input type="id" name="id" value="{{ curso.id }}">
+            <label for="curso">Título do curso:</label>
+            <input type="curso" name="curso" value="{{ curso.titulo }}">
+            <button id="send" type="submit">Realizar Matricula</button>
+        </form>
+    </section>

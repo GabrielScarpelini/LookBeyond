@@ -18,14 +18,23 @@
 <body>
     <header>
         <nav>
-            <a href="area_logada">
-                <span class="icon-voltar"><i class="bi bi-backspace"></i><br><p>voltar</p></span>
+            <a href="/">
+                <span class="icon-voltar"><i class="bi bi-backspace"></i><br><p>sair</p></span>
             </a>
-            <a href="curso">
-                <span class="adiciona_curso" ><i class="bi bi-camera-video" ></i><br><p>cadastro curso</p></span>
+            <a href="/meus_cursos">
+                <span class="meu_curso" id="meuCurso"><i class="bi bi-book"></i><br><p>meus cursos</p></span>
             </a>
-        
         </nav>
+        <!--<nav>
+            <div class="div_container">
+                <a href="area_logada">
+                    <span class="icon-voltar"><i class="bi bi-backspace"></i></i></span>
+                </a>
+                <a href="curso">
+                    <span class="adiciona_curso"><i class="bi bi-camera-video"></i></i></span>
+                </a>
+            </div>
+        </nav>-->
     </header>
     <ul class="cursos__container" alt="videos cursos" data-lista data="cursos">
         {% for curso in data %}
@@ -38,9 +47,10 @@
                 <img src="{{curso.imagem}}">
                 <h3>{{curso.titulo}}</h3>
                 <p>{{curso.descricao}}</p>
+                <button class="btn-matricula"><a href="{{ url_for('matricular_curso', id=curso.id)}}">Matricular-se</a></button>
             </div>
             <!-- <div>
-                <button class="btn-matricula"><a href="{{ url_for('matricular_curso', id=curso.id)}}">ENTRAR</a></button>
+                <button class="btn-matricula"><a href="{{ url_for('matricular_curso', id=curso.id)}}">Matricular-se</a></button>
             </div> -->
         </li>
         {% endfor %}

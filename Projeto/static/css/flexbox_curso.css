@@ -21,6 +21,9 @@ header nav a {
     padding: 20px;
 	margin: 1px;
 }
+header nav a span p {
+    font-size: 15px;
+}
 
 body{
     height: 100vh;
@@ -66,6 +69,19 @@ body{
     grid-area: 2 / 2 / 3 / 3;
     font-size: 14px;
     color: #fff;
+}
+.descricao-curso button {
+    grid-area: 3 / 2 / 4 / 4;
+    margin-right: auto;
+    /* font: bold;
+    margin-top: 1%;
+    margin-right: 45%; */
+}
+
+
+.btn-matricula:hover{
+    font-weight: bolder;
+    color: #f2f1f1;
 }
 
 .descricao-curso img {

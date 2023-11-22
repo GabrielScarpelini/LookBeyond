@@ -1,0 +1,23 @@
+body{
+    height: 100vh;
+    background-color: rgb(17, 86, 102);
+}
+header nav {
+    height: 80px;
+	margin: 0px;
+	
+	display: flex;
+    justify-content: space-between;
+    transform: translateY(2%);
+	align-items: center;
+}
+
+header nav a {
+    font-size: 25px;
+    color: #fff;	
+    padding: 20px;
+	margin: 1px;
+}
+header nav a span p {
+    font-size: 15px;
+}
